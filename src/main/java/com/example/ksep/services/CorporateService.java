@@ -35,6 +35,8 @@ public class CorporateService {
                 p.getId(),
                 p.getUser().getEmail(),
                 p.getCompanyName(),
-                p.getType().name());
+                p.getType().name()
+        );
     }
 }
+
