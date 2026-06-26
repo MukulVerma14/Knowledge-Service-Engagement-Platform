@@ -12,6 +12,14 @@ import {
   closeDeal
 } from '../services/api';
 
+const formatToISOString = (datetimeLocalVal) => {
+  if (!datetimeLocalVal) return null;
+  const d = new Date(datetimeLocalVal);
+  if (isNaN(d.getTime())) return null;
+  const pad = (num) => String(num).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+};
+
 const CampusDashboard = () => {
   const [programmes, setProgrammes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -84,8 +92,17 @@ const CampusDashboard = () => {
     setLoading(true);
     try {
       const payload = {
-        ...formData,
-        participantsCount: parseInt(formData.participantsCount, 10) || 0
+        title: formData.title,
+        type: formData.type,
+        domain: formData.domain,
+        subDomain: formData.subDomain,
+        location: formData.location,
+        scale: formData.scale,
+        startDate: formatToISOString(formData.startDate),
+        endDate: formatToISOString(formData.endDate),
+        participantsCount: parseInt(formData.participantsCount, 10) || 0,
+        description: formData.description,
+        feeBased: Boolean(formData.feeBased)
       };
       await createProgramme(payload);
       setToast({ message: 'Programme added successfully!', type: 'success' });
@@ -133,8 +150,17 @@ const CampusDashboard = () => {
     setLoading(true);
     try {
       const payload = {
-        ...formData,
-        participantsCount: parseInt(formData.participantsCount, 10) || 0
+        title: formData.title,
+        type: formData.type,
+        domain: formData.domain,
+        subDomain: formData.subDomain,
+        location: formData.location,
+        scale: formData.scale,
+        startDate: formatToISOString(formData.startDate),
+        endDate: formatToISOString(formData.endDate),
+        participantsCount: parseInt(formData.participantsCount, 10) || 0,
+        description: formData.description,
+        feeBased: Boolean(formData.feeBased)
       };
       await updateProgramme(selectedProg.id, payload);
       setToast({ message: 'Programme updated successfully!', type: 'success' });

@@ -27,9 +27,21 @@ public class AdminService {
     public List<ProgrammeResponseDto> getAllProgrammes() {
         return programmeRepository.findAll().stream()
                 .map(p -> new ProgrammeResponseDto(
-                        p.getId(), p.getCampus().getId(), p.getCampus().getCampusName(),
-                        p.getTitle(), p.getType().name(), p.getDomain(),
-                        p.getLocation(), p.getStatus().name()
+                        p.getId(),
+                        p.getCampus().getId(),
+                        p.getCampus().getCampusName(),
+                        p.getTitle(),
+                        p.getType().name(),
+                        p.getDomain(),
+                        p.getSubDomain(),
+                        p.getLocation(),
+                        p.getScale(),
+                        p.getStartDate(),
+                        p.getEndDate(),
+                        p.getParticipantsCount(),
+                        p.getDescription(),
+                        p.getFeeBased(),
+                        p.getStatus().name()
                 )).collect(Collectors.toList());
     }
 

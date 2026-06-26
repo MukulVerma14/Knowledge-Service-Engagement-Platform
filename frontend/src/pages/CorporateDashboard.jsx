@@ -84,17 +84,12 @@ const CorporateDashboard = () => {
         try {
             if (expressedProgIds.has(progId)) {
                 await withdrawInterest(progId);
-                setExpressedProgIds(prev => {
-                    const updated = new Set(prev);
-                    updated.delete(progId);
-                    return updated;
-                });
                 setToast({ message: 'Interest withdrawn.', type: 'success' });
             } else {
                 await expressInterest(progId);
-                setExpressedProgIds(prev => new Set(prev).add(progId));
                 setToast({ message: 'Interest expressed!', type: 'success' });
             }
+            await fetchShortlist(true);
         } catch (err) {
             const errMsg = err.response?.data?.message || err.message || 'Action failed.';
             setToast({ message: errMsg, type: 'error' });
@@ -223,16 +218,37 @@ const CorporateDashboard = () => {
                     key={prog.id}
                     programme={prog}
                     actions={
-                        <button
-                            onClick={() => handleInterestToggle(prog.id)}
-                            className={`px-4 py-2 rounded-lg text-xs font-bold transition shadow-sm text-white ${
-                                expressedProgIds.has(prog.id)
-                                    ? 'bg-red-500 hover:bg-red-600'
-                                    : 'bg-accent hover:bg-accent-dark'
-                            }`}
-                        >
-                            {expressedProgIds.has(prog.id) ? 'Withdraw Interest' : 'Express Interest'}
-                        </button>
+                      (() => {
+                        const matchingEoi = shortlist.find(eoi => eoi.programmeId === prog.id);
+                        if (!matchingEoi) {
+                          return (
+                            <button
+                              onClick={() => handleInterestToggle(prog.id)}
+                              className="px-4 py-2 rounded-lg text-xs font-bold transition shadow-sm text-white bg-accent hover:bg-accent-dark"
+                            >
+                              Express Interest
+                            </button>
+                          );
+                        }
+                        if (matchingEoi.status === 'PENDING' || matchingEoi.status === 'MATCHED') {
+                          return (
+                            <button
+                              onClick={() => handleInterestToggle(prog.id)}
+                              className="px-4 py-2 rounded-lg text-xs font-bold transition shadow-sm text-white bg-red-500 hover:bg-red-600"
+                            >
+                              Withdraw Interest
+                            </button>
+                          );
+                        }
+                        if (matchingEoi.status === 'CLOSED') {
+                          return (
+                            <span className="px-4 py-2 rounded-lg text-xs font-bold bg-gray-100 text-gray-500 border border-gray-200">
+                              Deal Closed
+                            </span>
+                          );
+                        }
+                        return null;
+                      })()
                     }
                   />
                 ))}

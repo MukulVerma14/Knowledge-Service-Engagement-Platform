@@ -136,7 +136,21 @@ public class CampusService {
 
         private ProgrammeResponseDto mapToProgrammeResponse(Programme p) {
                 return new ProgrammeResponseDto(
-                                p.getId(), p.getCampus().getId(), p.getCampus().getCampusName(),
-                                p.getTitle(), p.getType().name(), p.getDomain(), p.getLocation(), p.getStatus().name());
+                                p.getId(),
+                                p.getCampus().getId(),
+                                p.getCampus().getCampusName(),
+                                p.getTitle(),
+                                p.getType().name(),
+                                p.getDomain(),
+                                p.getSubDomain(),
+                                p.getLocation(),
+                                p.getScale(),
+                                p.getStartDate(),
+                                p.getEndDate(),
+                                p.getParticipantsCount(),
+                                p.getDescription(),
+                                p.getFeeBased(),
+                                p.getStatus().name()
+                );
         }
 }
