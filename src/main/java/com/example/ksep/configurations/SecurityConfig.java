@@ -70,7 +70,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // Allow local React testing and your future production Vercel domain
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "https://your-frontend-domain.vercel.app"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "https://elevate-tech-fests-campus.vercel.app"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
